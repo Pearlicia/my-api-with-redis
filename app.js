@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const createError = require('http-errors')
 require('dotenv').config()
 require('./helpers/init_mongodb')
-require('./helpers/init_redis')
+const client = require('./helpers/init_redis')
 const Volcanoe = require("./Models/Volcanoe");
 const { verifyAccessToken } = require('./helpers/jwt_helper')
 
@@ -13,6 +13,15 @@ const app = express()
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+client.SET('test', 'bar')
+client.SET('test1', 'bar1')
+client.SET('test2', 'bar2')
+
+client.GET('test', (err, value) => {
+  if (err) console.log(err.message)
+  console.log(value)
+})
 
 //CREATE
 
