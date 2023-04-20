@@ -65,15 +65,15 @@ app.get("/find/:id", async (req, res) => {
 
 //GET ALL VOLCANOES
 app.get("/", async (req, res) => {
-  const vNew = req.query.new;
+  const page = 1; // current page number
+  const limit = 20; // number of items to show per page
+
+  // Calculate the number of items to skip based on the current page number
+  const skipIndex = (page - 1) * limit;
   try {
     let volcanoes;
 
-    if (vNew) {
-      volcanoes = await Volcanoe.find().sort({ createdAt: -1 }).limit(1);
-    } else {
-      volcanoes = await Volcanoe.find();
-    }
+    volcanoes = await Volcanoe.find().sort({ createdAt: -1 }).skip(skipIndex).limit(limit);
 
     res.status(200).json(volcanoes);
   } catch (err) {
