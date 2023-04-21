@@ -8,6 +8,7 @@ const {
 } = require('../helpers/jwt_helper')
 const client = require('../helpers/init_redis')
 
+
 module.exports = {
   register: async (req, res, next) => {
     try {
@@ -20,12 +21,17 @@ module.exports = {
         throw createError.Conflict(`${result.email} is already been registered`)
 
       const user = new User(result)
-      const savedUser = await user.save()
+      const savedUser = await user.save();
+      res.status(200).json({savedUser})
+
+
       const accessToken = await signAccessToken(savedUser.id)
       const refreshToken = await signRefreshToken(savedUser.id)
 
-      res.send({ accessToken, refreshToken })
+      res.status(200).json({accessToken, refreshToken})
     } catch (error) {
+      res.status(500).json(err);
+
       if (error.isJoi === true) error.status = 422
       next(error)
     }
