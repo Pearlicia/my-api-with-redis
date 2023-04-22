@@ -1,0 +1,42 @@
+const JWT = require("jsonwebtoken");
+
+const verifyAccessToken = (req, res, next) => {
+  const authHeader = req.headers.token;
+  if (authHeader) {
+    const token = authHeader.split(" ")[1];
+    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) res.status(403).json("Token is not valid!");
+      req.user = user;
+      next();
+    });
+  } else {
+    return res.status(401).json("You are not authenticated!");
+  }
+};
+
+const verifyTokenAndAuthorize = (req, res, next) => {
+  verifyAccessToken(req, res, () => {
+    if (req.user.id === req.params.id) {
+      next();
+    } else {
+      res.status(403).json("You are not authorized to do that!");
+    }
+  });
+};
+
+const verifyTokenAndCUD = (req, res, next) => {
+    verifyAccessToken(req, res, () => {
+      if (req.user.id) {
+        next();
+      } else {
+        res.status(403).json("You are not authorized to do that!");
+      }
+    });
+  };
+
+
+module.exports = {
+  verifyAccessToken,
+  verifyTokenAndAuthorize,
+  verifyTokenAndCUD
+};

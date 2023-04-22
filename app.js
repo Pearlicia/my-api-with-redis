@@ -5,8 +5,10 @@ require('dotenv').config()
 require('./helpers/init_mongodb')
 const client = require('./helpers/init_redis')
 const Volcanoe = require("./Models/Volcanoe");
-const { verifyAccessToken } = require('./helpers/jwt_helper')
+const { verifyTokenAndCUD } = require('./helpers/verify_access_token')
 const AuthRoute = require('./Routes/Auth.route')
+const { authSchema } = require('./helpers/validation_schema')
+
 const passport = require('passport');
 const session = require('express-session');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -88,7 +90,7 @@ app.get('/auth/google/callback',
 
 
 //CREATE NEW VOLCANOE
-app.post("/volcanoes", async (req, res) => {
+app.post("/volcanoes", verifyTokenAndCUD, async (req, res) => {
   const newVolcanoe = new Volcanoe(req.body);
 
   try {
@@ -100,7 +102,8 @@ app.post("/volcanoes", async (req, res) => {
 });
 
 //UPDATE VOLCANOE
-app.put("/:id", async (req, res) => {
+app.put("/:id", verifyTokenAndCUD, async (req, res) => {
+
   try {
     const updatedVolcanoe = await Volcanoe.findByIdAndUpdate(
       req.params.id,
@@ -116,7 +119,7 @@ app.put("/:id", async (req, res) => {
 });
 
 //DELETE VOLCANOE
-app.delete("/:id",  async (req, res) => {
+app.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
   try {
     await Volcanoe.findByIdAndDelete(req.params.id);
     res.status(200).json("Volcanoe has been deleted...");
@@ -136,7 +139,7 @@ app.get("/find/:id", async (req, res) => {
 });
 
 //GET ALL VOLCANOES
-app.get("/", verifyAccessToken, async (req, res) => {
+app.get("/", async (req, res) => {
   const page = 1; // current page number
   const limit = 20; // number of items to show per page
 
