@@ -1,17 +1,17 @@
 const redis = require('redis')
-const { createClient } = require('redis');
+//const { createClient } = require('redis');
 
-const client = createClient({
-        host: 'redis-11105.c84.us-east-1-2.ec2.cloud.redislabs.com',
-        port: 11105
-});
+// const client = createClient({
+//         host: 'redis-11105.c84.us-east-1-2.ec2.cloud.redislabs.com',
+//         port: 11105
+// });
 
 
-// const client = redis.createClient({
-//     host: '127.0.0.1',
-//     port: 6379,
+const client = redis.createClient({
+    host: '127.0.0.1',
+    port: 6379,
   
-// })
+})
 
 client
   .connect()
