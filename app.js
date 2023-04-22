@@ -136,7 +136,7 @@ app.get("/find/:id", async (req, res) => {
 });
 
 //GET ALL VOLCANOES
-app.get("/", async (req, res) => {
+app.get("/", verifyAccessToken, async (req, res) => {
   const page = 1; // current page number
   const limit = 20; // number of items to show per page
 

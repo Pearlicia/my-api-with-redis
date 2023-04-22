@@ -1,5 +1,7 @@
 const createError = require('http-errors')
 const User = require('../Models/User.model')
+require('dotenv').config()
+const JWT = require('jsonwebtoken')
 const { authSchema } = require('../helpers/validation_schema')
 const {
   signAccessToken,
@@ -12,8 +14,6 @@ const client = require('../helpers/init_redis')
 module.exports = {
   register: async (req, res, next) => {
     try {
-      // const { email, password } = req.body
-      // if (!email || !password) throw createError.BadRequest()
       const result = await authSchema.validateAsync(req.body)
 
       const doesExist = await User.findOne({ email: result.email })
@@ -22,16 +22,24 @@ module.exports = {
 
       const user = new User(result)
       const savedUser = await user.save();
-      res.status(200).json({savedUser})
+
+      const accessToken = JWT.sign(
+        {
+          id: user._id,
+        }, 
+        process.env.ACCESS_TOKEN_SECRET,
+        {expiresIn:"7d"}
+      );
 
 
-      const accessToken = await signAccessToken(savedUser.id)
-      const refreshToken = await signRefreshToken(savedUser.id)
+      res.status(201).json({savedUser, accessToken})
 
-      res.status(200).json({accessToken, refreshToken})
+
+      // const accessToken = await signAccessToken(savedUser.id)
+      // const refreshToken = await signRefreshToken(savedUser.id)
+
+      // res.send({accessToken, refreshToken})
     } catch (error) {
-      res.status(500).json(err);
-
       if (error.isJoi === true) error.status = 422
       next(error)
     }
@@ -47,10 +55,22 @@ module.exports = {
       if (!isMatch)
         throw createError.Unauthorized('Username/password not valid')
 
-      const accessToken = await signAccessToken(user.id)
-      const refreshToken = await signRefreshToken(user.id)
+        const accessToken = JWT.sign(
+          {
+            id: user._id,
+          }, 
+          process.env.ACCESS_TOKEN_SECRET,
+          {expiresIn:"7d"}
+        );
 
-      res.send({ accessToken, refreshToken })
+      const { password, ...withoutPassw } = user._doc; 
+
+      res.status(200).json({...withoutPassw, accessToken});
+
+      // const accessToken = await signAccessToken(user.id)
+      // const refreshToken = await signRefreshToken(user.id)
+
+      // res.send({ accessToken, refreshToken })
     } catch (error) {
       if (error.isJoi === true)
         return next(createError.BadRequest('Invalid Username/Password'))
