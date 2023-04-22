@@ -33,16 +33,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 
-// REDIS
-client.SET('test', 'bar')
-client.SET('test1', 'bar1')
-client.SET('test2', 'bar2')
-
-client.GET('test', (err, value) => {
-  if (err) console.log(err.message)
-  console.log(value)
-})
-
 app.get('/google', function(req, res) {
   res.render('pages/auth');
 });
