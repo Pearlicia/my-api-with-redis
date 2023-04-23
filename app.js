@@ -63,7 +63,7 @@ passport.use(new GoogleStrategy({
     callbackURL: CALLBACK_URL
   },
   function(accessToken, refreshToken, profile, done) {
-      userProfile=profile;
+      userProfile=profile;g 
       return done(null, userProfile);
   }
 ));
@@ -141,30 +141,30 @@ app.delete("/volcanoes:id", verifyTokenAndCUD,  async (req, res) => {
 app.get("/volcanoes/find/:id", async (req, res) => {
   try {
     // Check if the data is already present in Redis
-    client.get(`volcano_${req.params.id}`, async (err, result) => {
-      if (err) console.log(err.message);
+    // client.get(`volcano_${req.params.id}`, async (err, result) => {
+      // if (err) console.log(err.message);
 
       // If the data is present in Redis, return it
-      if (result) {
-        const volcano = JSON.parse(result);
-        res.status(200).json(volcano);
-      } else {
+      // if (result) {
+        // const volcano = JSON.parse(result);
+        // res.status(200).json(volcano);
+      // } else {
         // If the data is not present in Redis, get it from MongoDB
         const volcano = await Volcanoe.findById(req.params.id);
 
         // Save the data in Redis for future requests
-        client.setex(`volcano_${req.params.id}`, 3600, JSON.stringify(volcano));
+        // client.setex(`volcano_${req.params.id}`, 3600, JSON.stringify(volcano));
 
         res.status(200).json(volcano);
-      }
-    });
+      // }
+    // });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 
-//GET ALL VOLCANOES
+// //GET ALL VOLCANOES
 app.get("/", async (req, res) => {
   const page = 1; // current page number
   const limit = 20; // number of items to show per page
@@ -176,50 +176,13 @@ app.get("/", async (req, res) => {
 
     volcanoes = await Volcanoe.find().sort({ createdAt: -1 }).skip(skipIndex).limit(limit);
 
+
     res.status(200).json(volcanoes);
+    
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
-//GET ALL VOLCANOES
-// app.get("/", async (req, res) => {
-//   const page = 1; // current page number
-//   const limit = 20; // number of items to show per page
-
-//   // Calculate the number of items to skip based on the current page number
-//   const skipIndex = (page - 1) * limit;
-
-//   try {
-//     // Check if the data is already present in Redis
-//     client.get(`volcanoes_${skipIndex}_${limit}`, async (err, result) => {
-//       if (err) console.log(err.message);
-
-//       // If the data is present in Redis, return it
-//       if (result) {
-//         const volcanoes = JSON.parse(result);
-//         // res.status(200).json(volcanoes);
-//       } else {
-//         // If the data is not present in Redis, get it from MongoDB
-//         let volcanoes = await Volcanoe.find()
-//           .sort({ createdAt: -1 })
-//           .skip(skipIndex)
-//           .limit(limit);
-
-//         // Save the data in Redis for future requests
-//         client.setex(
-//           `volcanoes_${skipIndex}_${limit}`,
-//           3600,
-//           JSON.stringify(volcanoes)
-//         );
-
-//         res.status(200).json(volcanoes);
-//       }
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 
 app.use('/auth', AuthRoute)
