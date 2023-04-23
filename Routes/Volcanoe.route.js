@@ -94,26 +94,35 @@ router.post("/", verifyTokenAndCUD, async (req, res) => {
 /**
  * @swagger
  * /volcanoes/{id}:
- *   get:
- *     summary: Get the volcanoe by id
- *     tags: [Volcanoes]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The volcanoe id
- *     responses:
- *       200:
- *         description: The volcanoe description by id
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Book'
- *       404:
- *         description: The book was not found
+ *  put:
+ *    summary: Update a volcanoe by the id
+ *    tags: [Volcanoes]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The volcanoe id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Volcanoe'
+ *    responses:
+ *      200:
+ *        description: The volcanoe was updated succesfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Volcanoe'
+ *      404:
+ *        description: The volcanoe was not found
+ *      500:
+ *        description: Server error
  */
+
 
 // UPDATE VOLCANOE
 router.put("/:id", verifyTokenAndCUD, async (req, res) => {
@@ -138,6 +147,27 @@ router.put("/:id", verifyTokenAndCUD, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /volcanoes/{id}:
+ *   delete:
+ *     summary: Remove the volcanoe by id
+ *     tags: [Volcanoes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The volcanoe id
+ * 
+ *     responses:
+ *       200:
+ *         description: The volcanoe was deleted successfully
+ *       404:
+ *         description: The volcanoe was not found
+ */
+
 // DELETE VOLCANOE
 router.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
   try {
@@ -154,6 +184,32 @@ router.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
+/**
+ * @swagger
+ * /volcanoes/{id}:
+ *   get:
+ *     summary: Get the volcanoe by id
+ *     tags: [Volcanoes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The volcanoe id
+ *     responses:
+ *       200:
+ *         description: Get a volcanoe by id successful
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Volcanoe'
+ *       404:
+ *         description: The volcanoe was not found
+ */
+
 
 //GET VOLCANOE
 router.get("/:id", async (req, res) => {
@@ -180,6 +236,24 @@ router.get("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
+/**
+ * @swagger
+ * /volcanoes:
+ *   get:
+ *     summary: Returns the list of all the volcanoes
+ *     tags: [Volcanoes]
+ *     responses:
+ *       200:
+ *         description: The list of all the volcanoes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Volcanoe'
+ */
 
 
 // //GET ALL VOLCANOES
