@@ -8,7 +8,7 @@ const {
   signRefreshToken,
   verifyRefreshToken,
 } = require('../helpers/jwt_helper')
-const client = require('../helpers/init_redis')
+const client = require('../helpers/initialize_redis')
 
 
 module.exports = {
@@ -34,11 +34,6 @@ module.exports = {
 
       res.status(201).json({savedUser, accessToken})
 
-
-      // const accessToken = await signAccessToken(savedUser.id)
-      // const refreshToken = await signRefreshToken(savedUser.id)
-
-      // res.send({accessToken, refreshToken})
     } catch (error) {
       if (error.isJoi === true) error.status = 422
       next(error)
@@ -67,10 +62,6 @@ module.exports = {
 
       res.status(200).json({...withoutPassw, accessToken});
 
-      // const accessToken = await signAccessToken(user.id)
-      // const refreshToken = await signRefreshToken(user.id)
-
-      // res.send({ accessToken, refreshToken })
     } catch (error) {
       if (error.isJoi === true)
         return next(createError.BadRequest('Invalid Username/Password'))
