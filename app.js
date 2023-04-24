@@ -64,22 +64,6 @@ app.use(express.urlencoded({ extended: true }))
 
 
  
-/**
- * @swagger
- * '/google':
- *   get:
- *     tags:
- *     - OAUTH
- *     summary: Render the Google authentication page.
- *     description: Renders the Google authentication page for the user to log in with their Google account.
- *     responses:
- *      200:
- *        description: Google authentication page rendered successfully.
- *        schema:
- *           type: string
- *      400:
- *        description: Bad request
- */
 
 
 
