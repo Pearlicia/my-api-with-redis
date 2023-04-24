@@ -210,20 +210,7 @@ router.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
 //GET VOLCANOE
 router.get("/:id", async (req, res) => {
   try {
-    // Check if the data is already present in Redis
-    // client.get(`volcano_${req.params.id}`, async (err, result) => {
-      // if (err) console.log(err.message);
-
-      // If the data is present in Redis, return it
-      // if (result) {
-        // const volcano = JSON.parse(result);
-        // res.status(200).json(volcano);
-      // } else {
-        // If the data is not present in Redis, get it from MongoDB
         const volcano = await Volcanoe.findById(req.params.id);
-
-        // Save the data in Redis for future requests
-        // client.setex(`volcano_${req.params.id}`, 3600, JSON.stringify(volcano));
 
         res.status(200).json(volcano);
       // }

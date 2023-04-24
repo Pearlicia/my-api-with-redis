@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const createError = require('http-errors')
 require('dotenv').config()
 require('./helpers/init_mongodb')
-const client = require('./helpers/initialize_redis')
+require('./helpers/initialize_redis')
 const AuthRoute = require('./Routes/Auth.route')
 const VolcanoeRoute = require('./Routes/Volcanoe.route')
 const OAUTHRoute = require('./Routes/OAUTH.route')
@@ -40,7 +40,7 @@ const options = {
 			},
 		],
 	},
-	apis: ["./Routes/*.js", "/app.js"],
+	apis: ["./Routes/*.js"],
 };
 
 const specs = swaggerJsDoc(options);
@@ -49,7 +49,7 @@ const specs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 // Docs in JSON format
-app.get("/docs.json", (req, res) => {
+app.get("/docs-json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send(specs);
 });
@@ -61,9 +61,6 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-
- 
 
 
 
