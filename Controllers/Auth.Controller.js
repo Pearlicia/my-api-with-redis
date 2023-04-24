@@ -3,11 +3,7 @@ const User = require('../Models/User.model')
 require('dotenv').config()
 const JWT = require('jsonwebtoken')
 const { authSchema } = require('../helpers/validation_schema')
-const {
-  signAccessToken,
-  signRefreshToken,
-  verifyRefreshToken,
-} = require('../helpers/jwt_helper')
+const { verifyAccessToken } = require('../helpers/verify_access_token')
 const client = require('../helpers/initialize_redis')
 
 
@@ -69,25 +65,11 @@ module.exports = {
     }
   },
 
-  refreshToken: async (req, res, next) => {
-    try {
-      const { refreshToken } = req.body
-      if (!refreshToken) throw createError.BadRequest()
-      const userId = await verifyRefreshToken(refreshToken)
-
-      const accessToken = await signAccessToken(userId)
-      const refToken = await signRefreshToken(userId)
-      res.send({ accessToken: accessToken, refreshToken: refToken })
-    } catch (error) {
-      next(error)
-    }
-  },
-
   logout: async (req, res, next) => {
     try {
-      const { refreshToken } = req.body
-      if (!refreshToken) throw createError.BadRequest()
-      const userId = await verifyRefreshToken(refreshToken)
+      const { accessToken } = req.body
+      if (!accessToken) throw createError.BadRequest()
+      const userId = await verifyAccessToken(accessToken)
       client.DEL(userId, (err, val) => {
         if (err) {
           console.log(err.message)

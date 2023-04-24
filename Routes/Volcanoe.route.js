@@ -17,9 +17,6 @@ const { verifyTokenAndCUD } = require('../helpers/verify_access_token')
  *         - volcanoe-type
  *         - evidence
  *       properties:
- *         id:
- *           type: string
- *           description: The volcanoe id
  *         name:
  *           type: string
  *           description: The volcanoe name
@@ -33,7 +30,6 @@ const { verifyTokenAndCUD } = require('../helpers/verify_access_token')
  *           type: string
  *           description: Evidence
  *       example:
- *         id: ytghghhg
  *         name: Amasing
  *         subregion: Halmahera
  *         volcanoe-type: Stratovolcano(es)
