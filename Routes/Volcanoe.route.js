@@ -32,7 +32,7 @@ const { verifyTokenAndCUD } = require('../helpers/verify_access_token')
  *       example:
  *         name: Amasing
  *         subregion: Halmahera
- *         volcanoe-type: Stratovolcano(es)
+ *         volcanoe_type: Stratovolcano(es)
  *         evidence: Evidence Credible
  */
 
