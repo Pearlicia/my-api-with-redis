@@ -4,7 +4,6 @@ const client = require('../helpers/initialize_redis')
 const Volcanoe = require("../Models/Volcanoe.model");
 const { verifyTokenAndCUD } = require('../helpers/verify_access_token')
 
-
 /**
  * @swagger
  * components:
@@ -12,29 +11,60 @@ const { verifyTokenAndCUD } = require('../helpers/verify_access_token')
  *     Volcanoe:
  *       type: object
  *       required:
- *         - name
- *         - subregion
- *         - volcanoe-type
- *         - evidence
+ *         - Region
+ *         - Number
+ *         - Volcanoe_Name
+ *         - Country
+ *         - Location
+ *         - Latitude
+ *         - Longitude
+ *         - Elevation
+ *         - Type
+ *         - Status
  *       properties:
- *         name:
+ *         Region:
+ *           type: string
+ *           description: The volcanoe region
+ *         Number:
+ *           type: string
+ *           description: The volcanoe number
+ *         Volcanoe_Name:
  *           type: string
  *           description: The volcanoe name
- *         subregion:
+ *         Country:
  *           type: string
- *           description: The sub region of the volcanoe
- *         volcanoe-type:
+ *           description: Country the volcanoe Occured
+ *         Location:
  *           type: string
- *           description: The volcanoe type
- *         evidence:
- *           type: string
- *           description: Evidence
+ *           description: The location of the volcanoe
+ *         Latitude:
+ *            type: string
+ *            description: The Latitude of the volcanoe
+ *         Longitude:
+ *            type: string
+ *            description: The Longitude of the volcanoe
+ *         Elevation:
+ *            type: string
+ *            description: The volcanoe Elevation
+ *         Type:
+ *            type: string
+ *            description: The type of volcanoe
+ *         Status:
+ *            type: string
+ *            description: The volcanoe status
  *       example:
- *         name: Amasing
- *         subregion: Halmahera
- *         volcanoe_type: Stratovolcano(es)
- *         evidence: Evidence Credible
+ *         Region: West Indies
+ *         Number: 1600-21-
+ *         Volcanoe_Name: Piparo
+ *         Country: Trinidad
+ *         Location: Trinidad
+ *         Latitude: 10
+ *         Longitude: -61
+ *         Elevation: 140
+ *         Type: Mud Volcanoe
+ *         Status: Historical
  */
+
 
  /**
   * @swagger
