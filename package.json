@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "start": "node app.js",
+    "build": "babel src -d lib",
     "start:prod": "(node dist/main) || (node dist/src/main)",
     "deploy": "npm ci && npm install && npm run start:prod"
 
