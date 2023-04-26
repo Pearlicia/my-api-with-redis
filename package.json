@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/app.js",
     "build": "babel src -d dist",
-    "start:prod": "(node dist/main) || (node dist/src/main)",
+    "start:prod": "(node dist/app) || (node dist/src/app)",
     "deploy": "npm ci && npm install && npm run start:prod"
 
   },
