@@ -1,4 +1,4 @@
-name: MyUnideals CI/CD[AWS]
+name: MyAPI project
 
 on:
   push:
@@ -30,8 +30,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --immutable --immutable-cache --check-cache
-      - run: yarn run build
+      - run: npm ci
+      - run: npm run build
   
 
   deployToMain:
@@ -47,8 +47,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --immutable --immutable-cache --check-cache
-      - run: yarn run build
+      - run: npm ci
+      - run: npm run build
       - run: zip -r ebsdeploy.zip ./dist ./package.json ./Dockerfile ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
     
       - name: Get timestamp
