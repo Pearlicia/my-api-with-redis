@@ -2,14 +2,9 @@
   "name": "my-api-redis",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "start": "node app.js",
-    "build": "babel src -d lib",
-    "start:prod": "(node dist/main) || (node dist/src/main)",
-    "deploy": "npm ci && npm install && npm run start:prod"
-
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",

@@ -4,12 +4,17 @@ FROM node
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+ENV NODE_ENV production
+
+
 COPY . .
 
-RUN npm install -g -s -f --no-progress yarn && \
-    yarn && \
-    yarn cache clean
+RUN npm ci --only=production
+
 
 EXPOSE 3000
 
-CMD [ "yarn", "start:prod" ]
+CMD ["node", "app.js"]
+
+
+
