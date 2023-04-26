@@ -1,0 +1,70 @@
+name: MyUnideals CI/CD[AWS]
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+  ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  PORT: ${{ secrets.PORT }}
+
+
+
+jobs:
+  buildAndTest:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --immutable --immutable-cache --check-cache
+      - run: yarn run build
+  
+
+  deployToMain:
+    needs: [buildAndTest]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --immutable --immutable-cache --check-cache
+      - run: yarn run build
+      - run: zip -r ebsdeploy.zip ./dist ./package.json ./Dockerfile ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
+    
+      - name: Get timestamp
+        id: timestamp
+        run: echo "date=$(date +'%Y-%m-%dT%H-%M-%S-%3NZ')" >>$GITHUB_OUTPUT
+
+      - name: Deploying to Main Environment
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+         application_name: myapiserver
+         environment_name: Myapiserver-env
+      
+         version_label: "${{ steps.timestamp.outputs.date }}"
+         region: "us-east-1"
+         deployment_package: ebsdeploy.zip
+         existing_bucket_name: elasticbeanstalk-us-east-1-940580490955

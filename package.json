@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "prebuild": "rimraf dist",
+    "start": "node app.js",
+    "start:prod": "(node dist/main) || (node dist/src/main)",
+    "deploy": "npm ci && npm install && npm run start:prod"
+
   },
   "keywords": [],
   "author": "",

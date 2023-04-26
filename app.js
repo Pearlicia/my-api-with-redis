@@ -57,6 +57,9 @@ app.get("/docs-json", (req, res) => {
 
 app.set('view engine', 'ejs');
 
+app.get('/', (req, res) => {
+  res.status(200).json("My Volcanoe Api")
+})
 
 app.use(morgan('dev'))
 app.use(express.json())
