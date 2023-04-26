@@ -2,9 +2,9 @@ name: MyAPI project
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ dev ]
 
 env:
   MONGODB_URI: ${{ secrets.MONGODB_URI }}
@@ -49,7 +49,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - run: zip -r ebsdeploy.zip ./dist ./package.json ./Dockerfile ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
+      - run: zip -r ebsdeploy.zip ./dist ./package.json ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
     
       - name: Get timestamp
         id: timestamp
@@ -61,8 +61,8 @@ jobs:
          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
-         application_name: myapiserver
-         environment_name: Myapiserver-env
+         application_name: dev
+         environment_name: Dev-env
       
          version_label: "${{ steps.timestamp.outputs.date }}"
          region: "us-east-1"
