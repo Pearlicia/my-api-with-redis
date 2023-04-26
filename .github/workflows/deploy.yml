@@ -67,4 +67,4 @@ jobs:
          version_label: "${{ steps.timestamp.outputs.date }}"
          region: "us-east-1"
          deployment_package: ebsdeploy.zip
-         existing_bucket_name: elasticbeanstalk-us-east-1-940580490955
+         existing_bucket_name: elasticbeanstalk-us-east-1-487003105926
