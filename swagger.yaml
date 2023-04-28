@@ -6,7 +6,7 @@ info:
   
 
 servers:
-  - url: http://myapi.us-east-1.elasticbeanstalk.com/
+  - url: http://myapi.us-east-1.elasticbeanstalk.com
     description: Production server 
 
  
