@@ -1,0 +1,178 @@
+openapi: 3.0.0
+info:
+  title: VOLCANOE  API DOC
+  description: An Express Volcanoe API
+  version: 1.0.0
+  
+
+servers:
+  - url: http://myapi.us-east-1.elasticbeanstalk.com/
+    description: Production server
+  - url: http://localhost:3000/
+    description:  Development server 
+  
+
+ 
+components:
+  securitySchemes:
+    ApiTokenss:        # arbitrary name for the security scheme
+          
+      type: http
+      scheme: bearer
+    
+    ApiKey:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: apikey
+
+
+paths:
+  /google:
+    get:
+      tags:
+       - OAUTH
+      summary: Render the Google authentication page.
+      description: Renders the Google authentication page for the user to log in with their Google account.
+      responses: 
+        '200':
+          description: Google authentication page rendered successfully.
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+
+paths:
+  /success:
+    get:
+      tags:
+       - OAUTH
+      summary: Get the user profile data.
+      description: Returns the user profile data after successful authentication.
+      responses: 
+        '200':
+          description: User profile data retrieved successfully.
+          schema:
+            type: object
+        '400':
+          description: Bad Request
+
+
+paths:
+  /error:
+    get:
+      tags:
+       - OAUTH
+      summary: Handle authentication error.
+      description: Returns an error message when there is an error during authentication.
+      responses: 
+        '200':
+          description: Error message returned successfully.
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+
+paths:
+  /auth/google:
+    get:
+      tags:
+       - OAUTH
+      summary: Authenticate with Google.
+      description: Initiates the authentication process with Google using PassportJS.
+      responses: 
+        '200':
+          description: Initiates the authentication process with Google using PassportJS.
+          schema:
+            type: string
+        '400':
+          description: Bad Request 
+
+paths:
+  /auth/google/callback:
+    get:
+      tags:
+       - OAUTH
+      summary: Authenticate user with Google OAuth and redirect to success page
+      description: This endpoint initiates Google OAuth authentication flow and redirects the user to the success page upon successful authentication.
+      responses: 
+        '200':
+          description: A success message indicating the user has been authenticated
+          schema:
+            type: object
+        '400':
+          description: Bad Request 
+  
+      
+paths:
+  /users/detail/{userId}:
+    get:
+      security:
+       - ApiTokenss: []
+       - ApiKey: []
+      summary: Returns a user details by ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            # type : integer
+            # format: int64
+            type: string
+            example: "Users String"
+            minimum: 1
+      responses: 
+        '200':
+          description: OK
+  
+
+  paths:
+  /users/list:
+    post:
+      tags:
+        - User List API 
+      summary: Returns a user list. 
+      description: <b> Request :- </b> <br /> <br />
+              <b> page_no* </b>  is required <br /> 
+              <b> status* </b>  is required <br /> 
+              <b> type* </b>  is required <br /> 
+
+      parameters:
+        - in: query
+          name: month_year
+          schema:
+            #type: integer
+            example: 2022-10        
+      post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+           #application/json:
+            schema:
+              type: object
+              properties: 
+                page_no:         
+                  type: integer
+                  example: 1  
+                type:       
+                  type: string
+                  example: "A" 
+                status:
+                  type: integer
+                  example: 0
+                fileName:
+                  type: string 
+                  format: binary
+         
+      responses:
+        '200':
+          description: A user object. 
+        '400':
+          description: The specified user ID is invalid (not a number).
+        '404':
+          description: A user with the specified ID was not found.
+        default:
+          description: Unexpected error
+  
+  
