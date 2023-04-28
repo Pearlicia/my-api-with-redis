@@ -38,6 +38,9 @@ const options = {
 			{
 				url: "http://localhost:3000",
 			},
+      {
+				url: "http://myapi.us-east-1.elasticbeanstalk.com",
+			},
 		],
 	},
 	apis: ["./Routes/*.js"],
