@@ -7,34 +7,11 @@ require('./helpers/initialize_redis')
 const AuthRoute = require('./Routes/Auth.route')
 const VolcanoeRoute = require('./Routes/Volcanoe.route')
 const OAUTHRoute = require('./Routes/OAUTH.route')
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
 const { swaggerServe, swaggerSetup, specs } = require('./config')
 
 
 const app = express()
 
-// const options = {
-//   definition: {
-// 		openapi: "3.0.0",
-// 		info: {
-// 			title: "VOLCANOE API",
-// 			version: "1.0.0",
-// 			description: "An Express Volcanoe API",
-// 		},
-//     servers: [
-//       {
-// 				url: "http://myapi.us-east-1.elasticbeanstalk.com",
-// 			},
-//     ],
-// 	},
-//   apis: ["./Routes/*.js" ],
-// };
-
-// const specs = swaggerJsDoc(options);
-  
-// Swagger page
-// app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use("/api", swaggerServe, swaggerSetup); 
 
 
