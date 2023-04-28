@@ -7,10 +7,7 @@ info:
 
 servers:
   - url: http://myapi.us-east-1.elasticbeanstalk.com/
-    description: Production server
-  - url: http://localhost:3000/
-    description:  Development server 
-  
+    description: Production server 
 
  
 components:
