@@ -20,27 +20,14 @@ const options = {
 			version: "1.0.0",
 			description: "An Express Volcanoe API",
 		},
-    components: {
-      securitySchemas: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
-      },
-    },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
 		servers: [
-			{
-				url: "http://localhost:3000",
-			},
       {
 				url: "http://myapi.us-east-1.elasticbeanstalk.com",
 			},
+			{
+				url: "http://localhost:3000",
+			},
+     
 		],
 	},
 	apis: ["./Routes/*.js"],
