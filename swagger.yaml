@@ -25,8 +25,157 @@ components:
       in: header       # can be "header", "query" or "cookie"
       name: apikey
 
+  schemas:
+    User:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: The user email
+        password:
+          type: string
+          description: The user password
+      example:
+        email: johndoe@gmail.com
+        password: password
 
+
+    Volcanoe:
+      type: object
+      required:
+        - Region
+        - Number
+        - Volcanoe_Name
+        - Country
+        - Location
+        - Latitude
+        - Longitude
+        - Elevation
+        - Type
+        - Status
+      properties:
+        Region:
+          type: string
+          description: The volcanoe region
+        Number:
+          type: string
+          description: The volcanoe number
+        Volcanoe_Name:
+          type: string
+          description: The volcanoe name
+        Country:
+          type: string
+          description: Country the volcanoe Occured
+        Location:
+          type: string
+          description: The location of the volcanoe
+        Latitude:
+            type: string
+            description: The Latitude of the volcanoe
+        Longitude:
+            type: string
+            description: The Longitude of the volcanoe
+        Elevation:
+            type: string
+            description: The volcanoe Elevation
+        Type:
+            type: string
+            description: The type of volcanoe
+        Status:
+            type: string
+            description: The volcanoe status
+      example:
+        Region: West Indies
+        Number: 1600-21-
+        Volcanoe_Name: Piparo
+        Country: Trinidad
+        Location: Trinidad
+        Latitude: 10
+        Longitude: -61
+        Elevation: 140
+        Type: Mud Volcanoe
+        Status: Historical
+
+
+ 
+tags:
+  name: Users
+  description: Users of the Volcanoe API
+
+  name: Volcanoes
+  description: A Volcanoe API
+  
+
+   
 paths:
+  /auth/register:
+    post:
+      summary: Create a new user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: The user was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Some server error
+ 
+  paths:
+  /auth/login:
+    post:
+      summary: Login a user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Some server error
+
+  paths:
+  /auth/logout:
+    delete:
+      summary: Delete a user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: The user was deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Some server error
+ 
+ 
+
+  paths:
   /google:
     get:
       tags:
@@ -41,11 +190,11 @@ paths:
         '400':
           description: Bad Request
 
-paths:
+  paths:
   /success:
     get:
       tags:
-       - OAUTH
+      - OAUTH
       summary: Get the user profile data.
       description: Returns the user profile data after successful authentication.
       responses: 
@@ -57,7 +206,7 @@ paths:
           description: Bad Request
 
 
-paths:
+  paths:
   /error:
     get:
       tags:
@@ -72,7 +221,7 @@ paths:
         '400':
           description: Bad Request
 
-paths:
+  paths:
   /auth/google:
     get:
       tags:
@@ -87,7 +236,7 @@ paths:
         '400':
           description: Bad Request 
 
-paths:
+  paths:
   /auth/google/callback:
     get:
       tags:
@@ -101,78 +250,115 @@ paths:
             type: object
         '400':
           description: Bad Request 
-  
-      
-paths:
-  /users/detail/{userId}:
-    get:
-      security:
-       - ApiTokenss: []
-       - ApiKey: []
-      summary: Returns a user details by ID.
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          description: Parameter description in CommonMark or HTML.
-          schema:
-            # type : integer
-            # format: int64
-            type: string
-            example: "Users String"
-            minimum: 1
-      responses: 
-        '200':
-          description: OK
-  
 
+  
   paths:
-  /users/list:
+  /volcanoes:
     post:
-      tags:
-        - User List API 
-      summary: Returns a user list. 
-      description: <b> Request :- </b> <br /> <br />
-              <b> page_no* </b>  is required <br /> 
-              <b> status* </b>  is required <br /> 
-              <b> type* </b>  is required <br /> 
-
-      parameters:
-        - in: query
-          name: month_year
-          schema:
-            #type: integer
-            example: 2022-10        
-      post:
+      summary: Create a new volcanoe
+      tags: [Volcanoes]
       requestBody:
         required: true
         content:
-          multipart/form-data:
-           #application/json:
+          application/json:
             schema:
-              type: object
-              properties: 
-                page_no:         
-                  type: integer
-                  example: 1  
-                type:       
-                  type: string
-                  example: "A" 
-                status:
-                  type: integer
-                  example: 0
-                fileName:
-                  type: string 
-                  format: binary
-         
+              $ref: '#/components/schemas/Volcanoe'
       responses:
         '200':
-          description: A user object. 
-        '400':
-          description: The specified user ID is invalid (not a number).
+          description: The volcanoe was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volcanoe'
+        '500':
+          description: Some server error
+  
+  paths:
+  /volcanoes/{id}:
+   put:
+     summary: Update a volcanoe by the id
+     tags: [Volcanoes]
+     parameters:
+       - in: path
+         name: id
+         schema:
+           type: string
+         required: true
+         description: The volcanoe id
+     requestBody:
+       required: true
+       content:
+         application/json:
+           schema:
+             $ref: '#/components/schemas/Volcanoe'
+     responses:
+       '200':
+         description: The volcanoe was updated succesfully
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/Volcanoe'
+       '404':
+         description: The volcanoe was not found
+       '500':
+        description: Server error
+ 
+  paths:
+    /volcanoes/{id}:
+      delete:
+        summary: Remove the volcanoe by id
+        tags: [Volcanoes]
+        parameters:
+          - in: path
+            name: id
+            schema:
+              type: string
+            required: true
+            description: The volcanoe id
+        responses:
+          '200':
+            description: The volcanoe was deleted successfully
+          '404':
+            description: The volcanoe was not found
+  
+  paths:
+  /volcanoes/{id}:
+    get:
+      summary: Get the volcanoe by id
+      tags: [Volcanoes]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The volcanoe id
+      responses:
+        '200':
+          description: Get a volcanoe by id successful
+          contens:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volcanoe'
         '404':
-          description: A user with the specified ID was not found.
-        default:
-          description: Unexpected error
-  
-  
+          description: The volcanoe was not found
+ 
+  paths:
+  /volcanoes:
+    get:
+      summary: Returns the list of all the volcanoes
+      tags: [Volcanoes]
+      responses:
+        '200':
+          description: The list of all the volcanoes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Volcanoe'
+        '404':
+          description: Not found
+
+      
+ 

@@ -4,98 +4,7 @@ const client = require('../helpers/initialize_redis')
 const Volcanoe = require("../Models/Volcanoe.model");
 const { verifyTokenAndCUD } = require('../helpers/verify_access_token')
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     Volcanoe:
- *       type: object
- *       required:
- *         - Region
- *         - Number
- *         - Volcanoe_Name
- *         - Country
- *         - Location
- *         - Latitude
- *         - Longitude
- *         - Elevation
- *         - Type
- *         - Status
- *       properties:
- *         Region:
- *           type: string
- *           description: The volcanoe region
- *         Number:
- *           type: string
- *           description: The volcanoe number
- *         Volcanoe_Name:
- *           type: string
- *           description: The volcanoe name
- *         Country:
- *           type: string
- *           description: Country the volcanoe Occured
- *         Location:
- *           type: string
- *           description: The location of the volcanoe
- *         Latitude:
- *            type: string
- *            description: The Latitude of the volcanoe
- *         Longitude:
- *            type: string
- *            description: The Longitude of the volcanoe
- *         Elevation:
- *            type: string
- *            description: The volcanoe Elevation
- *         Type:
- *            type: string
- *            description: The type of volcanoe
- *         Status:
- *            type: string
- *            description: The volcanoe status
- *       example:
- *         Region: West Indies
- *         Number: 1600-21-
- *         Volcanoe_Name: Piparo
- *         Country: Trinidad
- *         Location: Trinidad
- *         Latitude: 10
- *         Longitude: -61
- *         Elevation: 140
- *         Type: Mud Volcanoe
- *         Status: Historical
- */
 
-
- /**
-  * @swagger
-  * tags:
-  *   name: Volcanoes
-  *   description: A Volcanoe API
-  */
-
-
-/**
- * @swagger
- * /volcanoes:
- *   post:
- *     summary: Create a new volcanoe
- *     tags: [Volcanoes]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Volcanoe'
- *     responses:
- *       200:
- *         description: The volcanoe was successfully created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Volcanoe'
- *       500:
- *         description: Some server error
- */
 
 // CREATE NEW VOLCANOE
 router.post("/", verifyTokenAndCUD, async (req, res) => {
@@ -115,39 +24,6 @@ router.post("/", verifyTokenAndCUD, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-
-/**
- * @swagger
- * /volcanoes/{id}:
- *  put:
- *    summary: Update a volcanoe by the id
- *    tags: [Volcanoes]
- *    parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          type: string
- *        required: true
- *        description: The volcanoe id
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Volcanoe'
- *    responses:
- *      200:
- *        description: The volcanoe was updated succesfully
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Volcanoe'
- *      404:
- *        description: The volcanoe was not found
- *      500:
- *        description: Server error
- */
 
 
 // UPDATE VOLCANOE
@@ -173,26 +49,6 @@ router.put("/:id", verifyTokenAndCUD, async (req, res) => {
   }
 });
 
-/**
- * @swagger
- * /volcanoes/{id}:
- *   delete:
- *     summary: Remove the volcanoe by id
- *     tags: [Volcanoes]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The volcanoe id
- * 
- *     responses:
- *       200:
- *         description: The volcanoe was deleted successfully
- *       404:
- *         description: The volcanoe was not found
- */
 
 // DELETE VOLCANOE
 router.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
@@ -212,30 +68,6 @@ router.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
 });
 
 
-/**
- * @swagger
- * /volcanoes/{id}:
- *   get:
- *     summary: Get the volcanoe by id
- *     tags: [Volcanoes]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The volcanoe id
- *     responses:
- *       200:
- *         description: Get a volcanoe by id successful
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Volcanoe'
- *       404:
- *         description: The volcanoe was not found
- */
-
 
 //GET VOLCANOE
 router.get("/:id", async (req, res) => {
@@ -250,23 +82,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
-/**
- * @swagger
- * /volcanoes:
- *   get:
- *     summary: Returns the list of all the volcanoes
- *     tags: [Volcanoes]
- *     responses:
- *       200:
- *         description: The list of all the volcanoes
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Volcanoe'
- */
 
 
 // //GET ALL VOLCANOES

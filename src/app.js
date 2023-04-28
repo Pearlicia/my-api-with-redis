@@ -9,7 +9,7 @@ const VolcanoeRoute = require('./Routes/Volcanoe.route')
 const OAUTHRoute = require('./Routes/OAUTH.route')
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
-const { swaggerServe, swaggerSetup } = require('./config')
+const { swaggerServe, swaggerSetup, specs } = require('./config')
 
 
 const app = express()
@@ -38,11 +38,11 @@ const app = express()
 app.use("/api", swaggerServe, swaggerSetup); 
 
 
-// Docs in JSON format
-// app.get("/docs-json", (req, res) => {
-//   res.setHeader("Content-Type", "application/json");
-//   res.send(specs);
-// });
+//Docs in JSON format
+app.get("/docs-json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(specs);
+});
 
 
 app.set('view engine', 'ejs');

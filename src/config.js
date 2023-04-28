@@ -16,4 +16,4 @@ const options = {
 
 
 
-module.exports = { swaggerServe: swaggerUI.serve, swaggerSetup: swaggerUI.setup(swaggerJSDocs,options) };
+module.exports = { swaggerServe: swaggerUI.serve, swaggerSetup: swaggerUI.setup(swaggerJSDocs,options), specs: swaggerJSDocs };
