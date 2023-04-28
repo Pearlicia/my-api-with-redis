@@ -50,7 +50,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - run: zip -r ebsdeploy.zip ./dist ./package.json ./src/views ./Dockerfile ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
+      - run: zip -r ebsdeploy.zip ./dist ./package.json ./swagger.yaml ./src/views ./Dockerfile ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
     
       - name: Get timestamp
         id: timestamp
