@@ -12,6 +12,7 @@ env:
   GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
   PORT: ${{ secrets.PORT }}
+  GOAUTHREDIRECT_URL: ${{ secrets.GOAUTHREDIRECT_URL }}
 
 
 
@@ -49,7 +50,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - run: zip -r ebsdeploy.zip ./dist ./package.json ./Dockerfile ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
+      - run: zip -r ebsdeploy.zip ./dist ./package.json ./src/views ./Dockerfile ./package-lock.json ./yarn.lock -x "*.git*" "**node_modules**" "./.env"
     
       - name: Get timestamp
         id: timestamp
