@@ -100,14 +100,11 @@ components:
         Status: Historical
 
 
- 
 tags:
-  name: Users
-  description: Users of the Volcanoe API
-
-  name: Volcanoes
-  description: A Volcanoe API
-  
+  - name: Users
+    description: Users of the Volcanoe API
+  - name: Volcanoes
+    description: A Volcanoe API  
 
    
 paths:
@@ -131,7 +128,7 @@ paths:
         '500':
           description: Some server error
  
-  paths:
+  
   /auth/login:
     post:
       summary: Login a user
@@ -152,7 +149,7 @@ paths:
         '500':
           description: Some server error
 
-  paths:
+  
   /auth/logout:
     delete:
       summary: Delete a user
@@ -175,7 +172,7 @@ paths:
  
  
 
-  paths:
+  
   /google:
     get:
       tags:
@@ -190,7 +187,7 @@ paths:
         '400':
           description: Bad Request
 
-  paths:
+  
   /success:
     get:
       tags:
@@ -206,7 +203,7 @@ paths:
           description: Bad Request
 
 
-  paths:
+  
   /error:
     get:
       tags:
@@ -221,7 +218,7 @@ paths:
         '400':
           description: Bad Request
 
-  paths:
+  
   /auth/google:
     get:
       tags:
@@ -236,7 +233,7 @@ paths:
         '400':
           description: Bad Request 
 
-  paths:
+  
   /auth/google/callback:
     get:
       tags:
@@ -252,8 +249,8 @@ paths:
           description: Bad Request 
 
   
-  paths:
-  /volcanoes:
+  
+  /create/volcanoes:
     post:
       summary: Create a new volcanoe
       tags: [Volcanoes]
@@ -273,56 +270,56 @@ paths:
         '500':
           description: Some server error
   
-  paths:
-  /volcanoes/{id}:
-   put:
-     summary: Update a volcanoe by the id
-     tags: [Volcanoes]
-     parameters:
-       - in: path
-         name: id
-         schema:
-           type: string
-         required: true
-         description: The volcanoe id
-     requestBody:
-       required: true
-       content:
-         application/json:
-           schema:
-             $ref: '#/components/schemas/Volcanoe'
-     responses:
-       '200':
-         description: The volcanoe was updated succesfully
-         content:
-           application/json:
-             schema:
-               $ref: '#/components/schemas/Volcanoe'
-       '404':
-         description: The volcanoe was not found
-       '500':
-        description: Server error
- 
-  paths:
-    /volcanoes/{id}:
-      delete:
-        summary: Remove the volcanoe by id
-        tags: [Volcanoes]
-        parameters:
-          - in: path
-            name: id
-            schema:
-              type: string
-            required: true
-            description: The volcanoe id
-        responses:
-          '200':
-            description: The volcanoe was deleted successfully
-          '404':
-            description: The volcanoe was not found
   
-  paths:
   /volcanoes/{id}:
+    put:
+      summary: Update a volcanoe by the id
+      tags: [Volcanoes]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The volcanoe id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Volcanoe'
+      responses:
+        '200':
+          description: The volcanoe was updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volcanoe'
+        '404':
+          description: The volcanoe was not found
+        '500':
+          description: Server error
+ 
+  
+  /volcanoes/{deleteid}:
+    delete:
+      summary: Remove the volcanoe by id
+      tags: [Volcanoes]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The volcanoe id
+      responses:
+        '200':
+          description: The volcanoe was deleted successfully
+        '404':
+          description: The volcanoe was not found
+  
+  
+  /volcanoes/{getid}:
     get:
       summary: Get the volcanoe by id
       tags: [Volcanoes]
@@ -343,7 +340,7 @@ paths:
         '404':
           description: The volcanoe was not found
  
-  paths:
+  
   /volcanoes:
     get:
       summary: Returns the list of all the volcanoes

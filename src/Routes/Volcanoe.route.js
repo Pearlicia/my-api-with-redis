@@ -7,7 +7,7 @@ const { verifyTokenAndCUD } = require('../helpers/verify_access_token')
 
 
 // CREATE NEW VOLCANOE
-router.post("/", verifyTokenAndCUD, async (req, res) => {
+router.post("/create", verifyTokenAndCUD, async (req, res) => {
   const newVolcanoe = new Volcanoe(req.body);
 
   try {
@@ -51,7 +51,7 @@ router.put("/:id", verifyTokenAndCUD, async (req, res) => {
 
 
 // DELETE VOLCANOE
-router.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
+router.delete("/:deleteid", verifyTokenAndCUD,  async (req, res) => {
   try {
     await Volcanoe.findByIdAndDelete(req.params.id);
 
@@ -70,7 +70,7 @@ router.delete("/:id", verifyTokenAndCUD,  async (req, res) => {
 
 
 //GET VOLCANOE
-router.get("/:id", async (req, res) => {
+router.get("/:getid", async (req, res) => {
   try {
         const volcano = await Volcanoe.findById(req.params.id);
 
